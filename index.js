@@ -55,17 +55,17 @@ async function getMatches(url) {
                         matches.push({
                             league: {
                                 name: leagueName,
-                                logoUrl: leagueLogo
+                                logoUrl: treatMediaLinks(leagueLogo)
                             },
                             host: {
                                 name: teamAName,
-                                logoUrl: teamALogoUrl,
+                                logoUrl: treatMediaLinks(teamALogoUrl),
                                 score: treatNoneScore(teamAScore),
                                 goals: teamAGoalsArray
                             },
                             visitor: {
                                 name: teamBName,
-                                logoUrl: teamBLogoUrl,
+                                logoUrl: treatMediaLinks(teamBLogoUrl),
                                 score: treatNoneScore(teamBScore),
                                 goals: teamBGoalsArray
                             },
@@ -90,6 +90,14 @@ function isGoodDate(dt) {
 function treatNoneScore(scores) {
     if (scores === "-")
         return 0;
+}
+
+function treatMediaLinks(link){
+    return link
+        .replaceAll('/\\','/')
+        .replaceAll('\\','/')
+        .replaceAll('//','/')
+        .replaceAll(':/','://').toLowerCase();
 }
 
 app.get("/health", (request, response) => {
